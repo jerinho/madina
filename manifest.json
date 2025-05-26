@@ -1,0 +1,15 @@
+{
+  "name": "Warga Sihat",
+  "short_name": "wargasihat",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "622x622",
+      "type": "image/png"
+    }
+  ]
+}
