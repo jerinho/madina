@@ -1,6 +1,6 @@
 {
   "name": "Warga Sihat",
-  "short_name": "wargasihat",
+  "short_name": "Warga Sihat",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
