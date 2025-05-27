@@ -41,6 +41,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
+      installBtn.style.removeProperty('display');
     });
     window.addEventListener('message', (event) => {
       if(!event.origin.includes('https://script.google.com')) return;
