@@ -14,10 +14,19 @@
 </head>
 <body style="margin:0;padding:0;height:100vh;overflow:hidden">
   <iframe src="https://script.google.com/macros/s/AKfycbwa8FqTbo3zAPodBzXq7_-rrj3EiqtMMxsfbcDq4KIaoNpOkfx6ZTfxIiIHyYN3BsxClg/exec" style="width:100%; height:100%; border:none;"></iframe>
-  <button id="installBtn">Install App</button>
+  <button id="installBtn" style="display:none;">Install App</button>
   <script>
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     let deferredPrompt = null;
+    onload = function(){
+      if(!isAppInstalled()) installBtn.style.removeProperty('display');
+    }
+    function isAppInstalled() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+      const isIOSStandalone = window.navigator.standalone === true;
+      return isStandalone || (isIOS && isIOSStandalone);
+    }
     function notif(title, body) {
       if (Notification.permission === 'granted') navigator.serviceWorker.getRegistration().then(reg => {
         if (reg) reg.showNotification(title, {
