@@ -41,36 +41,23 @@
         });
       }
     }
-  
+    
     window.addEventListener('DOMContentLoaded', () => {
       const installBtn = document.getElementById('installBtn');
-  
-      // Hide if already installed
-      if (!isAppInstalled()) {
-        installBtn.style.removeProperty('display');
-      }
-  
-      // Show if installable
+      if (!isAppInstalled()) installBtn.style.removeProperty('display');
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        if(deferredPrompt) installBtn.style.removeProperty('display');
+        installBtn.style.removeProperty('display');
       });
-  
-      // Click install
       installBtn.addEventListener('click', () => {
-        if (!deferredPrompt) {
-          alert('Install not supported or already installed.');
-        } else {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-            installBtn.style.display = 'none';
-          });
-        }
+        if (!deferredPrompt) return alert('Install not supported or already installed.');
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        });
       });
-  
-      // Message from iframe (GAS)
       window.addEventListener('message', (event) => {
         if (!event.origin.includes('https://script.google.com')) return;
         if (event.data.type === 'notify') notif(event.data.title, event.data.body);
