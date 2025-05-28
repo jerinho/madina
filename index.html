@@ -44,7 +44,7 @@
     
     window.addEventListener('DOMContentLoaded', () => {
       const installBtn = document.getElementById('installBtn');
-      if (!isAppInstalled()) installBtn.style.removeProperty('display');
+      // if (!isAppInstalled()) installBtn.style.removeProperty('display');
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
