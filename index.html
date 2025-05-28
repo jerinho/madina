@@ -50,17 +50,18 @@
     }
     window.addEventListener('DOMContentLoaded', () => {
       iframe.src = url;
+      if(Notification.permission == 'default') btnsubscribe.style.removeProperty('display');
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.removeProperty('display');
+        btninstall.style.removeProperty('display');
       });
       btninstall.addEventListener('click', () => {
         if (!deferredPrompt) return alert('Install not supported or already installed.');
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(() => {
           deferredPrompt = null;
-          installBtn.style.display = 'none';
+          btninstall.style.display = 'none';
         });
       });
       btnsubscribe.addEventListener('click', () => {
