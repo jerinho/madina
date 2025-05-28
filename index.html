@@ -63,7 +63,8 @@
         btninstall.style.removeProperty('display');
       });
       btninstall.addEventListener('click', () => {
-        if (!deferredPrompt) return alert('Install not supported or already installed.');
+        var text = 'App tidak dapat diinstall atau telah diinstall';
+        if (!deferredPrompt) return alert(text);
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(() => {
           deferredPrompt = null;
@@ -84,6 +85,7 @@
       await navigator.serviceWorker.register('sw.js');
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') return;
+      if(Notification.permission != 'default') btnsubscribe.style.display = 'none';
       const token = await getToken(messaging, {vapidKey: vapid, serviceWorkerRegistration: await navigator.serviceWorker.ready});
       // fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token })})
       fetch(url + '?d=' + token + (localStorage.u ? '&u=' + localStorage.u : ''), {redirect: 'follow'}).then(res => res.text()).then(data => {
