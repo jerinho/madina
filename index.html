@@ -54,7 +54,7 @@
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.removeProperty('display');
+        if(deferredPrompt) installBtn.style.removeProperty('display');
       });
   
       // Click install
