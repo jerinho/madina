@@ -80,10 +80,9 @@
       const token = await getToken(messaging, {
         vapidKey: vapid, serviceWorkerRegistration: await navigator.serviceWorker.ready,
       });
-      iframe.src = url + '?d=' + token;
-      // await fetch(url, {
-      //   method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }),
-      // });
+      fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token })}).then(res => res.text()).then(data => {
+        iframe.src = url + '?d=' + data;
+      });
     }
     initPush();
   </script>
