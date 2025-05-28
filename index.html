@@ -16,23 +16,35 @@
   <iframe src="https://script.google.com/macros/s/AKfycbwa8FqTbo3zAPodBzXq7_-rrj3EiqtMMxsfbcDq4KIaoNpOkfx6ZTfxIiIHyYN3BsxClg/exec" style="width:100%; height:100%; border:none;"></iframe>
   <button id="installBtn" style="display:none;">Install App</button>
   <script>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js";
+    const url = "https://script.google.com/macros/s/AKfycbwa8FqTbo3zAPodBzXq7_-rrj3EiqtMMxsfbcDq4KIaoNpOkfx6ZTfxIiIHyYN3BsxClg/exec";
+    const vapid = "BODBeA7oIsJWdWBWVFINLmNItU9KeipPczaDfGq54Jbx9GlXDRqvaiOqNK2KOIF4P2-9zQeSXWr2KAUKYMbzOnE";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHgIKGh3DfqKQGsM-AfQjnVo4GEtpUDXs",
+      authDomain: "semestaalamsemulajadi.firebaseapp.com",
+      projectId: "semestaalamsemulajadi",
+      storageBucket: "semestaalamsemulajadi.firebasestorage.app",
+      messagingSenderId: "911910247061",
+      appId: "1:911910247061:web:453d0751b85d76d7db599c",
+      measurementId: "G-NR4TQ8KC21"
+    };
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-  
     let deferredPrompt = null;
-  
     function isAppInstalled() {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
       const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
       const isIOSStandalone = window.navigator.standalone === true;
       return isStandalone || (isIOS && isIOSStandalone);
-    }
-  
+    }  
     function notif(title, body) {
       if (Notification.permission === 'granted') {
         navigator.serviceWorker.getRegistration().then(reg => {
           if (reg) reg.showNotification(title, {
             body: body,
-            icon: '/icon-192.png',
+            icon: 'logo.png',
           });
         });
       } else if (Notification.permission !== 'denied') {
@@ -41,10 +53,8 @@
         });
       }
     }
-    
     window.addEventListener('DOMContentLoaded', () => {
       const installBtn = document.getElementById('installBtn');
-      // if (!isAppInstalled()) installBtn.style.removeProperty('display');
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -63,6 +73,18 @@
         if (event.data.type === 'notify') notif(event.data.title, event.data.body);
       });
     });
+    async function initPush() {
+      await navigator.serviceWorker.register('/sw.js');
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') return;
+      const token = await getToken(messaging, {
+        vapidKey: vapid, serviceWorkerRegistration: await navigator.serviceWorker.ready,
+      });
+      await fetch(url, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }),
+      });
+    }
+    initPush();
   </script>
 </body>
 </html>
