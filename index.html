@@ -6,7 +6,7 @@
     document.close();
   }).catch(err => {
     document.open();
-    document.write('Error loading page');
+    document.write(err);
     document.close();
   });
 </script>
