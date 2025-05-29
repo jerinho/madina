@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<body>
-  <div id="output">Warga Sihat</div>
-  <script>
-    const url = 'https://script.google.com/macros/s/AKfycbwa8FqTbo3zAPodBzXq7_-rrj3EiqtMMxsfbcDq4KIaoNpOkfx6ZTfxIiIHyYN3BsxClg/exec?page=app';
-    fetch(url).then(res => res.text()).then(html => {
-      document.getElementById('output').innerHTML = html;
-    }).catch(err => {
-      document.getElementById('output').textContent = 'Error loading remote HTML.';
-    });
-  </script>
-</body>
-</html>
+<script>
+  const url = 'https://script.google.com/macros/s/AKfycbwa8FqTbo3zAPodBzXq7_-rrj3EiqtMMxsfbcDq4KIaoNpOkfx6ZTfxIiIHyYN3BsxClg/exec?page=app';
+  fetch(url).then(res => res.text()).then(html => {
+    document.open();
+    document.write(html);
+    document.close();
+  }).catch(err => {
+    document.open();
+    document.write('Error loading page');
+    document.close();
+  });
+</script>
